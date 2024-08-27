@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from study.forms import StudyForm
 from study.models import Study
+from study.serializers import StudySerializer
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView
+from rest_framework import generics as rest_views
 
 
 def create_new_study(request):
@@ -90,3 +92,10 @@ class EditStudyView(UpdateView):
     kwargs["user"] = self.request.user
 
     return kwargs
+
+
+class StudiesView(rest_views.ListCreateAPIView):
+  serializer_class = StudySerializer
+
+  def get_queryset(self):
+    return Study.objects.filter(creator=self.request.user)
