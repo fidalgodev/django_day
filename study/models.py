@@ -26,6 +26,15 @@ class Study(models.Model):
     default=1,
   )
 
+  estimated_time_minutes = models.IntegerField(
+    verbose_name="Estimated Time in Minutes",
+    help_text="Enter the estimated time in minutes to complete the study",
+    validators=[
+      MinValueValidator(1),
+      MaxValueValidator(60),
+    ],
+  )
+
   reward = models.IntegerField(
     verbose_name="Reward",
     help_text="Enter the reward for participating in the study",
@@ -34,15 +43,6 @@ class Study(models.Model):
       MaxValueValidator(10000),
     ],
     default=10,
-  )
-
-  estimated_time_minutes = models.IntegerField(
-    verbose_name="Estimated Time in Minutes",
-    help_text="Enter the estimated time in minutes to complete the study",
-    validators=[
-      MinValueValidator(1),
-      MaxValueValidator(60),
-    ],
   )
 
   creator = models.ForeignKey(

@@ -15,7 +15,16 @@ class StudySerializer(serializers.ModelSerializer):
 
   def validate(self, data):
     validated_data = super().validate(data)
+
+    if validated_data["reward"] / validated_data["estimated_time_minutes"] * 60 < 15:
+      raise serializers.ValidationError(
+        {
+          "reward": "The reward per hour must be at least 15",
+        }
+      )
+
     validated_data["creator"] = self.context["request"].user
+
     return validated_data
 
   class Meta:
