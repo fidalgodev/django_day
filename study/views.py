@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from study.forms import StudyForm
 from study.models import Study
 from django.urls import reverse
+from django.views.generic import CreateView, ListView, UpdateView
 
 
 def create_new_study(request):
@@ -52,3 +53,30 @@ def list_user_studies(request):
     "list_studies.html",
     {"studies": studies},
   )
+
+
+class MyStudiesView(ListView):
+  template_name = "list_studies.html"
+  context_object_name = "studies"
+
+  def get_queryset(self):
+    return Study.objects.filter(creator=self.request.user)
+
+
+class CreateStudyView(CreateView):
+  model = Study
+  template_name = "create_study.html"
+
+  def get_form(self):
+    return StudyForm(user=self.request.user)
+
+
+class EditStudyView(UpdateView):
+  model = Study
+  template_name = "create_study.html"
+
+  def get_queryset(self):
+    return Study.objects.filter(creator=self.request.user)
+
+  def get_form(self):
+    return StudyForm(user=self.request.user)

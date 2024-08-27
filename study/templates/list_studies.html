@@ -1,36 +1,37 @@
-<html>
-  <head>
-    <title>Study List</title>
-  </head>
-  <body>
-    <h1>My studies</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Places</th>
-          <th>Reward</th>
-          <th>Creator</th>
-          <th>Edit</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for study in studies %}
-        <tr>
-          <th>{{study.id}}</th>
-          <th>{{study.name}}</th>
-          <th>{{study.description}}</th>
-          <th>{{study.number_of_places}}</th>
-          <th>{{study.reward}}</th>
-          <th>{{study.creator}}</th>
-          <th><a href="{% url 'edit_existing_study' study.id %}">Edit</a></th>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </body>
+{% extends "base.html" %} {% block content %}
+<h1>My studies</h1>
+<table class="table w-100 table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Places</th>
+      <th>Reward</th>
+      <th>Creator</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for study in studies %}
+    <tr>
+      <th>{{study.id}}</th>
+      <th>{{study.name}}</th>
+      <th>{{study.description}}</th>
+      <th>{{study.number_of_places}}</th>
+      <th>{{study.reward}}</th>
+      <th>{{study.creator}}</th>
+      <th>
+        <a
+          class="btn btn-primary"
+          href="{% url 'edit_existing_study' study.id %}"
+          >Edit</a
+        >
+      </th>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a class="btn btn-success" href="{% url 'create_new_study' %}">Create new</a>
 
-  <a href="{% url 'create_new_study' %}">Create new</a>
-</html>
+{% endblock %}
