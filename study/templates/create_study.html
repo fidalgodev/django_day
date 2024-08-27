@@ -1,0 +1,13 @@
+<html lang="en">
+  <head>
+    <title>Create Study</title>
+  </head>
+  <body>
+    <h1>Create Study</h1>
+
+    <form method="post">
+      {% csrf_token %} {{form.as_p}}
+      <button type="submit">Create study</button>
+    </form>
+  </body>
+</html>
