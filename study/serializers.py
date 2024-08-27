@@ -11,6 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class StudySerializer(serializers.ModelSerializer):
   creator = UserSerializer(read_only=True)
+  reward_per_hour = serializers.ReadOnlyField()
 
   def validate(self, data):
     validated_data = super().validate(data)

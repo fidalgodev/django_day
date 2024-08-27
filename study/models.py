@@ -36,6 +36,15 @@ class Study(models.Model):
     default=10,
   )
 
+  estimated_time_minutes = models.IntegerField(
+    verbose_name="Estimated Time in Minutes",
+    help_text="Enter the estimated time in minutes to complete the study",
+    validators=[
+      MinValueValidator(1),
+      MaxValueValidator(60),
+    ],
+  )
+
   creator = models.ForeignKey(
     User,
     on_delete=models.CASCADE,
@@ -45,3 +54,9 @@ class Study(models.Model):
 
   def __str__(self):
     return self.name
+
+  @property
+  def reward_per_hour(self):
+    reward = round(self.reward / self.estimated_time_minutes * 60, 2)
+
+    return f"£{reward} / hour"
