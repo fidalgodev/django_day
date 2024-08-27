@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from study.forms import StudyForm
 from study.models import Study
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView
 
 
@@ -15,7 +15,7 @@ def create_new_study(request):
     if form.is_valid():
       form.save()
 
-      return redirect(reverse("list_user_studies"))
+      return redirect(reverse_lazy("list_user_studies"))
 
   return render(
     request,
@@ -36,7 +36,7 @@ def editing_existing_study(request, id):
     if form.is_valid():
       form.save()
 
-      return redirect(reverse("list_user_studies"))
+      return redirect(reverse_lazy("list_user_studies"))
 
   return render(
     request,
@@ -66,17 +66,27 @@ class MyStudiesView(ListView):
 class CreateStudyView(CreateView):
   model = Study
   template_name = "create_study.html"
+  form_class = StudyForm
+  success_url = reverse_lazy("list_user_studies_class_based")
 
-  def get_form(self):
-    return StudyForm(user=self.request.user)
+  def get_form_kwargs(self):
+    kwargs = super().get_form_kwargs()
+    kwargs["user"] = self.request.user
+
+    return kwargs
 
 
 class EditStudyView(UpdateView):
-  model = Study
   template_name = "create_study.html"
+  form_class = StudyForm
+  success_url = reverse_lazy("list_user_studies_class_based")
 
+  # Filter the queryset to only show the studies created by the current user are possible to edit
   def get_queryset(self):
     return Study.objects.filter(creator=self.request.user)
 
-  def get_form(self):
-    return StudyForm(user=self.request.user)
+  def get_form_kwargs(self):
+    kwargs = super().get_form_kwargs()
+    kwargs["user"] = self.request.user
+
+    return kwargs
