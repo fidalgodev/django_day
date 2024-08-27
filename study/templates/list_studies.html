@@ -3,6 +3,34 @@
     <title>Study List</title>
   </head>
   <body>
-    {{studies}}
+    <h1>My studies</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Places</th>
+          <th>Reward</th>
+          <th>Creator</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for study in studies %}
+        <tr>
+          <th>{{study.id}}</th>
+          <th>{{study.name}}</th>
+          <th>{{study.description}}</th>
+          <th>{{study.number_of_places}}</th>
+          <th>{{study.reward}}</th>
+          <th>{{study.creator}}</th>
+          <th><a href="{% url 'edit_existing_study' study.id %}">Edit</a></th>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </body>
+
+  <a href="{% url 'create_new_study' %}">Create new</a>
 </html>
