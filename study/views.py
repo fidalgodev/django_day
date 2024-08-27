@@ -14,7 +14,7 @@ def create_new_study(request):
     if form.is_valid():
       form.save()
 
-      return redirect(reverse("home"))
+      return redirect(reverse("list_user_studies"))
 
   return render(
     request,
@@ -35,10 +35,20 @@ def editing_existing_study(request, id):
     if form.is_valid():
       form.save()
 
-      return redirect(reverse("home"))
+      return redirect(reverse("list_user_studies"))
 
   return render(
     request,
     "create_study.html",
     {"form": form},
+  )
+
+
+def list_user_studies(request):
+  studies = Study.objects.filter(creator=request.user)
+
+  return render(
+    request,
+    "list_studies.html",
+    {"studies": studies},
   )
