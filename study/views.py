@@ -99,3 +99,10 @@ class StudiesView(rest_views.ListCreateAPIView):
 
   def get_queryset(self):
     return Study.objects.filter(creator=self.request.user)
+
+
+class StudyView(rest_views.RetrieveUpdateDestroyAPIView):
+  serializer_class = StudySerializer
+
+  def get_queryset(self):
+    return Study.objects.filter(creator=self.request.user)

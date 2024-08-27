@@ -8,6 +8,7 @@ from study.views import (
   CreateStudyView,
   EditStudyView,
   StudiesView,
+  StudyView,
 )
 
 
@@ -32,4 +33,5 @@ urlpatterns = [
   ),
   # API
   path("api/all/", StudiesView.as_view(), name="api_study_list"),
+  path("api/<pk>/", StudyView.as_view(), name="api_study"),
 ]
